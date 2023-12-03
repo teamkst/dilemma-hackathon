@@ -1,12 +1,12 @@
-import prisma from "../../../../prisma";
+import prisma from "../../../../../prisma";
 import { NextRequest, NextResponse } from "next/server";
-import { main } from "@/api/register/route";
+import { main } from "../../register/route";
 
 export const GET = async (req: NextRequest, res: NextResponse) => {
   try {
     await main();
-    const id = req.url.split("/user/")[1];
-    const user = await prisma.user.findFirst({ where: { id: id } });
+    const name = req.url.split("/")[5];
+    const user = await prisma.user.findFirst({ where: { name: name } });
     if (!user) {
       return NextResponse.json({ message: "Not found" }, { status: 404 });
     }

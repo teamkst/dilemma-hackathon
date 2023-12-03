@@ -5,6 +5,8 @@ import Star from "@/../../public/star.svg";
 import Correct from "@/../../public/correct.svg";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { UseZustand } from "@/config/UseZustand";
+import { Questions } from "@/config/Questions";
 
 interface LevelButtonProps {
   level: number;
@@ -12,6 +14,7 @@ interface LevelButtonProps {
 }
 
 export const LevelButton: FC<LevelButtonProps> = ({ level, current }) => {
+  const { setData, count } = UseZustand();
   const router = useRouter();
   const [button, setButton] = useState("unplayed");
   const [order, setOrder] = useState("0px");
@@ -64,15 +67,26 @@ export const LevelButton: FC<LevelButtonProps> = ({ level, current }) => {
         <div className="relative">
           <button
             className={`rounded-full relative inline-flex group items-center justify-center px-3.5 py-3 cursor-pointer border-b-4 active:border-gray-400 active:shadow-none shadow-md bg-gradient-to-tr  text-white ${
-              level !== 1
+              level > localStorage.getItem("level")
                 ? "from-[#E5E5E5] to-[#AFAFAF] border-[#AFAFAF]"
                 : "from-[#6A5AE0] to-[#6A5AE0] border-[#5040C6]"
             }`}
-            onClick={() =>
-              level === 1
-                ? router.push("/game")
-                : toast.warning("Та эхлээд 1-р үеээ давна уу")
-            }
+            onClick={() => {
+              {
+                if (level > Number(localStorage.getItem("completed"))) {
+                } else {
+                  toast.warning("Та аль хэдийн энэ үеийг тоглосон байна.");
+                }
+                if (level === Number(localStorage.getItem("level"))) {
+                  setData(
+                    // @ts-ignore
+                    Questions[0].quests[level - 1].options
+                  );
+                  router.push("/game");
+                }
+                // : toast.warning("Та эхлээд 1-р үеээ давна уу");
+              }
+            }}
           >
             <span className="absolute w-0 h-0 transition-all duration-300 ease-out bg-white rounded-full group-hover:w-32 group-hover:h-32 opacity-10"></span>
 

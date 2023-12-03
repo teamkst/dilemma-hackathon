@@ -4,9 +4,37 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import React, { useState } from "react";
+import axios from "axios";
+import { toast } from "sonner";
 
 const page = () => {
   const [selected, setSelected] = useState("notselected");
+  const [name, setName] = useState("");
+
+  const register = async () => {
+    if (name.length < 5) {
+      toast.warning("Нэр дор хаяж 5 аас дээш урттай байх ёстой.");
+    } else if (selected === "notselected") {
+      toast.warning("Та дор хаяж 1 дүрээ сонгоно уу");
+    } else {
+      const result = await axios.post(`http://localhost:3000/api/register`, {
+        name: name,
+        gender: selected,
+      });
+      if (result?.status === 201) {
+        toast.success("Амжилттай бүртгэлээ");
+        setTimeout(() => {
+          window.location.href = "/main";
+        }, 1000);
+        localStorage.setItem("name", name);
+        localStorage.setItem("coin", "1000");
+        localStorage.setItem("level", "1");
+        localStorage.setItem("happiness", "50");
+        localStorage.setItem("completed", "0");
+      } else toast.error("Something went wrong");
+    }
+  };
+
   return (
     <div className="bg-[#141F25] max-w-[550px] h-screen">
       {/* Logo and bg */}
@@ -60,12 +88,16 @@ const page = () => {
       </div>
       <CardContent className="py-10 flex justify-center items-center w-full">
         <Input
+          onChange={(e) => setName(e.target.value)}
           className="bg-[#14172A] text-white shadow-[0px_4px_0px_0px_#B7B7B7] py-[22px] w-[320px]"
           placeholder="Таны нэр..."
         />
       </CardContent>
       <CardFooter className=" flex justify-center items-center w-full">
-        <Button className="rounded-full relative inline-flex group items-center justify-center px-3.5 py-6 m-1 cursor-pointer border-b-4 border-l-2 active:border-[#6A5AE0] active:shadow-none shadow-lg bg-gradient-to-tr from-[#6A5AE0] to-[#5040C6] border-[#6A5AE0] text-white  text-[18px] font-semibold  w-[330px] ">
+        <Button
+          onClick={() => register()}
+          className="rounded-full relative inline-flex group items-center justify-center px-3.5 py-6 m-1 cursor-pointer border-b-4 border-l-2 active:border-[#6A5AE0] active:shadow-none shadow-lg bg-gradient-to-tr from-[#6A5AE0] to-[#5040C6] border-[#6A5AE0] text-white  text-[18px] font-semibold  w-[330px] "
+        >
           <span className="absolute w-0 h-0 transition-all duration-300 ease-out bg-white rounded-full group-hover:w-32 group-hover:h-32 opacity-10"></span>
           <span className="relative"> Дууссан</span>
         </Button>

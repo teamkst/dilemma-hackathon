@@ -14,12 +14,11 @@ model User {
     id     String   @id @default(auto()) @map("_id") @db.ObjectId  
     gender String 
     name   String @unique
-    wealth Int
-    happiness Int
+    wealth Int  @default(1000)
+    happiness Int @default(50)
     job String @default("noJob")
-    level Int[]
-    saving Int
-    skills String[]
+    level Int @default(1)
+    saving Int @default(0)
 }
 
 
