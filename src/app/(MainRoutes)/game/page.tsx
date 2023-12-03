@@ -33,11 +33,6 @@ const page = () => {
               {value && value?.money === 1 ? "+100 💰Мөнгө" : "-100 💰Мөнгө"}
             </p>
           </div>
-          <div className="pt-2">
-            <Button className="rounded-full relative inline-flex group items-center justify-center px-3.5 py-6 m-1 cursor-pointer border-b-4 border-l-2 active:border-[#6A5AE0] active:shadow-none shadow-lg bg-gradient-to-tr from-[#6A5AE0] to-[#5040C6] border-[#6A5AE0] text-white  text-[18px] font-semibold  w-full ">
-              <span className="absolute w-0 h-0 transition-all duration-300 ease-out bg-white rounded-full group-hover:w-32 group-hover:h-32 opacity-10"></span>
-            </Button>
-          </div>
           {/* Dilemma question */}
         </div>
         <form method="dialog" className="modal-backdrop">
