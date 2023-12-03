@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { UseZustand } from "@/config/UseZustand";
 import { Questions } from "@/config/Questions";
 import { toast } from "sonner";
+import { Goback } from "@/components/game/Goback";
 
 const page = () => {
   const { data, setData } = UseZustand();

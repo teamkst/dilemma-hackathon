@@ -1,5 +1,8 @@
 import { LevelButton } from "@/components/level/LevelButton";
+import { BottomTab } from "@/components/main/BottomTab";
+import { url } from "inspector";
 import Image from "next/image";
+import Background from "@/../../public/onboardingbg.png";
 
 const OnBoarding = () => {
   return (
@@ -27,6 +30,7 @@ const OnBoarding = () => {
           <LevelButton level={1} current={0} />
         </div>
       </div>
+      <BottomTab />
     </div>
   );
 };
