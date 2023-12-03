@@ -1,9 +1,10 @@
 "use client";
-
 import Image from "next/image";
 import { FC, useEffect, useState } from "react";
 import Star from "@/../../public/star.svg";
 import Correct from "@/../../public/correct.svg";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 interface LevelButtonProps {
   level: number;
@@ -11,18 +12,9 @@ interface LevelButtonProps {
 }
 
 export const LevelButton: FC<LevelButtonProps> = ({ level, current }) => {
+  const router = useRouter();
   const [button, setButton] = useState("unplayed");
   const [order, setOrder] = useState("0px");
-  const [start, setStart] = useState(false);
-  const [wrong, setWrong] = useState(false);
-
-  const startNewLevel = () => {
-    if (current + 1 === level) {
-      setStart(!start);
-    } else {
-      setWrong(!wrong);
-    }
-  };
 
   useEffect(() => {
     if (level === current) {
@@ -35,21 +27,17 @@ export const LevelButton: FC<LevelButtonProps> = ({ level, current }) => {
 
     switch (level) {
       case 2:
-        setOrder("30px");
+        setOrder("-50px");
         break;
       case 3:
-        setOrder("20px");
+        setOrder("40px");
         break;
       case 4:
-        setOrder("-30px");
+        setOrder("-50px");
         break;
       case 5:
-        setOrder("-20px");
+        setOrder("10px");
         break;
-      case 6:
-        setOrder("-25px");
-        break;
-
       default:
         break;
     }
@@ -73,30 +61,21 @@ export const LevelButton: FC<LevelButtonProps> = ({ level, current }) => {
           />
         </button>
       ) : button === "unplayed" ? (
-        <div>
-          {level === 1 && (
-            <div className="absolute z-10 mb-[24px]">
-              <div className=" bg-[#6A5AE0] shadow-md rounded-[30px]">
-                <p className="text-white rounded-3xl p-2 text-sm">Эхлэх</p>
-              </div>
-              <div />
-            </div>
-          )}
-          {wrong && (
-            <div className="absolute z-10 mb-[48px]">
-              <div className=" bg-[#6A5AE0] shadow-md rounded-[30px]">
-                <p className="text-white rounded-3xl p-2 text-sm text-center">
-                  Та энэ үед хүрээгүй байна
-                </p>
-              </div>
-              <div />
-            </div>
-          )}
+        <div className="relative">
           <button
-            className="rounded-full relative inline-flex group items-center justify-center px-3.5 py-3  cursor-pointer border-b-4 active:border-gray-400 active:shadow-none shadow-md bg-gradient-to-tr from-[#6A5AE0] to-[#6A5AE0] border-[#5040C6] text-white"
-            onClick={() => startNewLevel()}
+            className={`rounded-full relative inline-flex group items-center justify-center px-3.5 py-3 cursor-pointer border-b-4 active:border-gray-400 active:shadow-none shadow-md bg-gradient-to-tr  text-white ${
+              level !== 1
+                ? "from-[#E5E5E5] to-[#AFAFAF] border-[#AFAFAF]"
+                : "from-[#6A5AE0] to-[#6A5AE0] border-[#5040C6]"
+            }`}
+            onClick={() =>
+              level === 1
+                ? router.push("/game")
+                : toast.warning("Та эхлээд 1-р үеээ давна уу")
+            }
           >
             <span className="absolute w-0 h-0 transition-all duration-300 ease-out bg-white rounded-full group-hover:w-32 group-hover:h-32 opacity-10"></span>
+
             <Image
               alt="star"
               src={Star}
